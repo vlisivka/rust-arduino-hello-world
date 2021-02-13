@@ -1,0 +1,53 @@
+[package]
+name = "rust-arduino-blink"
+version = "0.2.0"
+authors = ["Volodymyr M. Lisivka <vlisivka@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+
+# Empty stubs for few functions required for panic handling
+avr-std-stub = "1.0"
+
+# AVR Hardware Abstraction Library.
+# It's not packaged yet to crates.io, because it requires nightly version of Rust
+arduino-uno = { git = "https://github.com/Rahix/avr-hal", rev = "b1aedf82" }
+
+# Library for text formatting.
+ufmt = "0.1"
+
+# Settings for regular cargo invocation
+[profile.dev]
+
+# Panic handling is not available
+panic = "abort"
+
+# Link Time Optimization, to remove unused code
+lto = true
+
+# Code works properly with "s" or "z" optimization level only, because
+# 1,2,3 levels unrols loops and breaks timings, while 0 level is too slow.
+# "s" - optimize by size, "z" - optimize by size, but without loop vectorization.
+opt-level = "s"
+
+# Settings for cargo invocation with --release switch
+[profile.release]
+
+# Optimize by size.
+opt-level = "s"
+
+# Debug information is still handy to have.
+debug = true
+
+# Link Time Optimization, to remove unused code
+lto = true
+
+# Compile program in 1 thread, so optimizer will have all information for optimizations.
+codegen-units = 1
+
+# Panic handling is not available
+panic = 'abort'
+
+# Commands "cargo test" and "cargo bench" will not compile, because of no_std.
+
+# See also ./cargo/config.toml

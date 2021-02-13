@@ -1,0 +1,12 @@
+[build]
+# Default target architecture for compilation. See file for details.
+target = "avr-atmega328p.json"
+
+[unstable]
+# Rebuild rust core, because prebuilt version is not available.
+build-std = ["core"]
+
+# When trying to run code compiled for avr, pass file name to flash.sh
+# instead.
+[target.'cfg(target_arch = "avr")']
+runner = "./flash.sh"
