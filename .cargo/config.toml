@@ -5,6 +5,7 @@ target = "avr-atmega328p.json"
 [unstable]
 # Rebuild rust core, because prebuilt version is not available.
 build-std = ["core"]
+build-std-features = ["panic_immediate_abort"]
 
 # When trying to run code compiled for avr, pass file name to flash.sh
 # instead.
